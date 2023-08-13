@@ -168,7 +168,7 @@ public class Plane : MonoBehaviour
             {
                 isMovingLeft = false;
                 animator.SetBool("IsMovingLeft", false);
-                Debug.Log("Moving Right");
+                //Debug.Log("Moving Right");
             }
         }
         else
@@ -178,7 +178,7 @@ public class Plane : MonoBehaviour
             {
                 isMovingLeft = true;
                 animator.SetBool("IsMovingLeft", true);
-                Debug.Log("Moving Left");
+                //Debug.Log("Moving Left");
 
             }
         }

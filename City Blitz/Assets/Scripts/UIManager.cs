@@ -8,45 +8,32 @@ public class UIManager : MonoBehaviour
     public Text ScoreText;
     public Text LivesText;
 
-    public Sprite[] backgrounds;
+    public Sprite[] day_backgrounds;
 
     private SpriteRenderer spriteRenderer;
 
     public GameObject background_obj;
-    public GameObject sky_obj;
-    public GameObject score;
-    public GameObject lives;
 
     public int Score { get; set; }
 
     private void Start()
     {
-        GameObject obj;
-        Transform transform;
-        Transform childTransform;
+        //GameObject obj;
+        //Transform transform;
+        //Transform childTransform;
 
         GameManager.OnLifeGained += OnLifeGained;
-        //todo Pooh.OnPoohTargetHit += UpdateScoreText;
-
-        //        GameManager.OnLifeLost += OnLifeLost;
-        // add OnTarget Hit subscriptions and call back functions
-
-        transform = background_obj.transform;
-        childTransform = transform.Find("Graphics");
-        obj = childTransform.gameObject;
-        Utilities.ResizeSpriteToFullScreen(obj);
-
-        transform = sky_obj.transform;
-        childTransform = transform.Find("Graphics");
-        obj = childTransform.gameObject;
-        Utilities.ResizeSpriteToFullScreen(obj);
-
-        /*****************************************************************************/
-        /* Anchor points in Rect Transform used to anchor text to top left/top right */
-        /* So no scaling or positioning needed here for canvas items                 */
-        /*****************************************************************************/
-
+        //todo GameManager.OnLifeLost += OnLifeLost;
+        //todo BuldingManager.OnLevelComplete += OnLevelComplete;
+        //todo BuildingPart.OnPartDistruction += OnPartDistruction;
+        //todo BuildingPart.OnPartHit += OnPartHit;
         UpdateScoreText(0);
+
+        //transform = background_obj.transform;
+        //childTransform = transform.Find("Graphics");
+        //obj = childTransform.gameObject;
+        //Utilities.ResizeSpriteToFullScreen(obj);
+
     }
 
     private void Awake()
@@ -68,10 +55,10 @@ public class UIManager : MonoBehaviour
 
     private void OnLevelComplete()
     {
-        if (backgrounds.Length > 0)
+        if (day_backgrounds.Length > 0)
         {
-            int background_num = UnityEngine.Random.Range(0, backgrounds.Length);
-            spriteRenderer.sprite = backgrounds[background_num];
+            int background_num = UnityEngine.Random.Range(0, day_backgrounds.Length);
+            spriteRenderer.sprite = day_backgrounds[background_num];
         }
     }
 
@@ -80,8 +67,19 @@ public class UIManager : MonoBehaviour
         string txt = "LIVES: " + remainingLives.ToString();
         LivesText.text = txt;
     }
+#if (PI)
+    private void OnPartDistruction(BuildingPart obj)
+    {
+        UpdateScoreText(10);
+    }
 
-    public void UpdateScoreText(int increment)
+    private void OnPartHit(BuildingPart obj, int increment)
+    {
+        UpdateScoreText(increment);
+    }
+#endif
+
+    private void UpdateScoreText(int increment)
     {
         this.Score += increment;
         string scoreString = this.Score.ToString().PadLeft(5, '0');
@@ -89,11 +87,16 @@ public class UIManager : MonoBehaviour
         GameManager.Instance.SetScore(Score);
     }
 
+
+
     private void OnDisable()
     {
-//        GameManager.OnLifeLost -= OnLifeLost;
+        //GameManager.OnLifeLost -= OnLifeLost;
+        //BuldingManager.OnLevelComplete -= OnLevelComplete;
+        //BuildingPart.OnPartDistruction -= OnPartDistruction;
+        //BuildingPart.OnPartHit -= OnPartHit;
+
         GameManager.OnLifeGained -= OnLifeGained;
-        //todo Pooh.OnPoohTargetHit -= UpdateScoreText;
 
     }
 
