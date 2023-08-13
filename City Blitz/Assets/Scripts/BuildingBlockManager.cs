@@ -25,12 +25,12 @@ public class BuildingBlockManager : MonoBehaviour
     }
     #endregion
 
-    //private int numRows = 12;
-    public int numCols = 10;
-    public float initialBrickSpawnPositionX = -2.00f;
-    public float initialBrickSpawnPositionY = -4.0f;
-    public float xshiftAmount = 0.4385f;
-    public float yshiftAmount = 0.42f;
+    private int numRows = 5;
+    public int numCols = 15;
+    public float initialBrickSpawnPositionX = -2.075f;
+    public float initialBrickSpawnPositionY = -4.5f;
+    public float xshiftAmount = 0.275f;
+    public float yshiftAmount = 0.725f;
 
     private GameObject bricksContainer;
 
@@ -39,7 +39,9 @@ public class BuildingBlockManager : MonoBehaviour
 
     public BuildingBlock blockPrefab;
 
-    public Sprite[] Sprites;
+    public Sprite[] baseSprites;
+    public Sprite[] midSprites;
+    public Sprite[] topSprites;
 
     public List<BuildingBlock> RemainingBlocks { get; set; }
 
@@ -64,17 +66,40 @@ public class BuildingBlockManager : MonoBehaviour
         float zShift = 0;
 
         int row = 0;
-        //for (int row = 0; row < this.numRows; row++)
-        //{
+        /* Base row */
+        for (int col = 0; col < this.numCols; col++)
+        {
+                BuildingBlock newBlock = Instantiate(blockPrefab, new Vector3(currentSpawnX, currentSpawnY, 0 - zShift), Quaternion.identity) as BuildingBlock;
+                newBlock.Init(bricksContainer.transform, this.baseSprites[0], GetColour(0xFFFFFF), 1);
+
+                //Utilities.ResizeSprite(newBlock.gameObject);
+
+                this.RemainingBlocks.Add(newBlock);
+                zShift += 0.0001f;
+
+            currentSpawnX += Utilities.ResizeXValue(xshiftAmount);
+            if (col + 1 >= this.numCols)
+            {
+                currentSpawnX = Utilities.ResizeXValue(initialBrickSpawnPositionX);
+            }
+        }
+
+        currentSpawnY += Utilities.ResizeYValue(yshiftAmount);
+        zShift = ((row + 1) * 0.0005f);
+
+
+        for (row = 1; row <= this.numRows; row++)
+        {
+
             for (int col = 0; col < this.numCols; col++)
             {
-                    BuildingBlock newBlock = Instantiate(blockPrefab, new Vector3(currentSpawnX, currentSpawnY, 0 - zShift), Quaternion.identity) as BuildingBlock;
-                    newBlock.Init(bricksContainer.transform, this.Sprites[0], GetColour(0xFFFFFF), 1);
+                BuildingBlock newBlock = Instantiate(blockPrefab, new Vector3(currentSpawnX, currentSpawnY, 0 - zShift), Quaternion.identity) as BuildingBlock;
+                newBlock.Init(bricksContainer.transform, this.midSprites[0], GetColour(0xFFFFFF), 1);
 
-                    //Utilities.ResizeSprite(newBlock.gameObject);
+                //Utilities.ResizeSprite(newBlock.gameObject);
 
-                    this.RemainingBlocks.Add(newBlock);
-                    zShift += 0.0001f;
+                this.RemainingBlocks.Add(newBlock);
+                zShift += 0.0001f;
 
                 currentSpawnX += Utilities.ResizeXValue(xshiftAmount);
                 if (col + 1 >= this.numCols)
@@ -83,9 +108,28 @@ public class BuildingBlockManager : MonoBehaviour
                 }
             }
 
-            currentSpawnY -= Utilities.ResizeYValue(yshiftAmount);
+            currentSpawnY += Utilities.ResizeYValue(yshiftAmount);
             zShift = ((row + 1) * 0.0005f);
-        //}
+        }
+
+        row = this.numRows + 1;
+
+        for (int col = 0; col < this.numCols; col++)
+        {
+            BuildingBlock newBlock = Instantiate(blockPrefab, new Vector3(currentSpawnX, currentSpawnY, 0 - zShift), Quaternion.identity) as BuildingBlock;
+            newBlock.Init(bricksContainer.transform, this.topSprites[0], GetColour(0xFFFFFF), 1);
+
+            //Utilities.ResizeSprite(newBlock.gameObject);
+
+            this.RemainingBlocks.Add(newBlock);
+            zShift += 0.0001f;
+
+            currentSpawnX += Utilities.ResizeXValue(xshiftAmount);
+            if (col + 1 >= this.numCols)
+            {
+                currentSpawnX = Utilities.ResizeXValue(initialBrickSpawnPositionX);
+            }
+        }
 
         this.InitialBlocksCount = this.RemainingBlocks.Count;
         OnLevelLoaded?.Invoke();
