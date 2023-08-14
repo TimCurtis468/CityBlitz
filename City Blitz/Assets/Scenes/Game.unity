@@ -515,18 +515,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f644887261c17843947093c49a78afd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numCols: 16
-  initialBrickSpawnPositionX: -2.075
-  initialBrickSpawnPositionY: -4.5
-  xshiftAmount: 0.275
-  yshiftAmount: 0.725
   blockPrefab: {fileID: 2184027830567452198, guid: 43a593b771cfe7b41b5f31d4250650b8, type: 3}
   baseSprites:
   - {fileID: 21300000, guid: 78447635a3d0d904497dc8df5ae18c23, type: 3}
+  - {fileID: 21300000, guid: d03be1315ec9d9848b553b4da3e5344f, type: 3}
+  - {fileID: 21300000, guid: 63a1d28ba096dd541a86b530cf07eb0b, type: 3}
   midSprites:
   - {fileID: 21300000, guid: 04c761e88e888f54dba9c7c0bee938b3, type: 3}
+  - {fileID: 21300000, guid: d1d146ffd5ebb154181e7af3ee0990b8, type: 3}
+  - {fileID: 21300000, guid: 1db51839c3327974db9c39b9f3a594f5, type: 3}
   topSprites:
   - {fileID: 21300000, guid: 69bf49f2097ca234bb4fc66767345005, type: 3}
+  - {fileID: 21300000, guid: 08fad6dfd893d0d4daacf58d49c5b391, type: 3}
+  - {fileID: 21300000, guid: 1182388c7b2b4194db3e31466045094e, type: 3}
   levelNum: 0
 --- !u!1 &737281787
 GameObject:

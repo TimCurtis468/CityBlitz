@@ -43,7 +43,7 @@ public class Plane : MonoBehaviour
     private float mouseTimer;
 
     private float MAX_SPEED = 0.075f;
-    private float MIN_SPEED = 0.025f;
+    private float MIN_SPEED = 0.0125f;
     private float DELTA_TIME_BASE = 0.0035f;
 
     // Start is called before the first frame update
