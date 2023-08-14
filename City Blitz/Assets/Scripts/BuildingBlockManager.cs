@@ -25,16 +25,20 @@ public class BuildingBlockManager : MonoBehaviour
     }
     #endregion
 
-    private int numFloors = 6;
+
+    private int MAX_FLOORS = 8;
     private int numBuildings = 15;
     private float initialBlockSpawnPositionX = -2.075f;
     private float initialBlockSpawnPositionY = -4.5f;
     private float xshiftAmount = 0.275f;
     private float yshiftAmount = 0.725f;
 
+    private int[] building_sizes = new int[15];
+
     private GameObject bricksContainer;
 
     //public static event Action OnLevelComplete;
+
 
 
     public BuildingBlock blockPrefab;
@@ -66,31 +70,39 @@ public class BuildingBlockManager : MonoBehaviour
         float zShift = 0;
 
         int row = 0;
-        int building_num = UnityEngine.Random.Range(1, 3);
+        int building_image_num = UnityEngine.Random.Range(1, this.baseSprites.Length);
+        int size = 0;
+        int b_color = 0xFFFFFF;
 
         BuildingBlock newBlock;
 
         /* Base row */
-        for (int col = 0; col < this.numBuildings; col++)
+        for (int building_num = 0; building_num < this.numBuildings; building_num++)
         {
-            building_num = UnityEngine.Random.Range(1, 3);
+            building_image_num = UnityEngine.Random.Range(1, this.baseSprites.Length);
+            size = UnityEngine.Random.Range(3, MAX_FLOORS + 1);
+            building_sizes[building_num] = size;
 
-            for (row = 0; row <= this.numFloors; row++)
+            b_color = UnityEngine.Random.Range(0x7F, 0xFF);
+            b_color = (b_color << 8) + UnityEngine.Random.Range(0x7F, 0xFF);
+            b_color = (b_color << 8) + UnityEngine.Random.Range(0x7F, 0xFF);
+
+            for (row = 0; row <= size; row++)
             {
                 if (row == 0)
                 {
                     newBlock = Instantiate(blockPrefab, new Vector3(currentSpawnX, currentSpawnY, 0 - zShift), Quaternion.identity) as BuildingBlock;
-                    newBlock.Init(bricksContainer.transform, this.baseSprites[building_num], GetColour(0xFFFFFF), 1);
+                    newBlock.Init(bricksContainer.transform, this.baseSprites[building_image_num], GetColour(b_color), 1);
                 }
-                else if (row < this.numFloors)
+                else if (row < size)
                 {
                     newBlock = Instantiate(blockPrefab, new Vector3(currentSpawnX, currentSpawnY, 0 - zShift), Quaternion.identity) as BuildingBlock;
-                    newBlock.Init(bricksContainer.transform, this.midSprites[building_num], GetColour(0xFFFFFF), 1);
+                    newBlock.Init(bricksContainer.transform, this.midSprites[building_image_num], GetColour(b_color), 1);
                 }
                 else
                 {
                     newBlock = Instantiate(blockPrefab, new Vector3(currentSpawnX, currentSpawnY, 0 - zShift), Quaternion.identity) as BuildingBlock;
-                    newBlock.Init(bricksContainer.transform, this.topSprites[building_num], GetColour(0xFFFFFF), 1);
+                    newBlock.Init(bricksContainer.transform, this.topSprites[building_image_num], GetColour(b_color), 1);
                 }
 
                 this.RemainingBlocks.Add(newBlock);
@@ -99,7 +111,7 @@ public class BuildingBlockManager : MonoBehaviour
                 currentSpawnY += Utilities.ResizeYValue(yshiftAmount);
                 zShift += 0.0001f;
             }
-            zShift = ((col + 1) * 0.0005f);
+            zShift = ((building_num + 1) * 0.0005f);
 
             currentSpawnX += Utilities.ResizeXValue(xshiftAmount);
             currentSpawnY = Utilities.ResizeYValue(initialBlockSpawnPositionY);
