@@ -25,7 +25,7 @@ public class BombManager : MonoBehaviour
     [SerializeField]
     public Bomb[] bombPrefab;
 
-    private float POOH_DROP_SPEED = -50.0f;//-0.5f;
+    private float BOMB_DROP_SPEED = -50.0f;//-0.5f;
 
     private bool bombActive = false;
 
@@ -48,8 +48,8 @@ public class BombManager : MonoBehaviour
                 spawnedPoohRb.isKinematic = false;
                 spawnedPoohRb.angularVelocity = 1.0f;
                 spawnedPoohRb.inertia = 0.0f;
-                spawnedPoohRb.AddForce(new Vector2(x_speed, POOH_DROP_SPEED));
-                spawnedPoohRb.AddTorque(rotation);
+                spawnedPoohRb.AddForce(new Vector2(x_speed, BOMB_DROP_SPEED));
+                //spawnedPoohRb.AddTorque(rotation);
                 bombActive = true;
                 Bomb.OnBombDeath += OnBombDeath;
 
