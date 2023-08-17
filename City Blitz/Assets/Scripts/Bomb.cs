@@ -7,7 +7,7 @@ public class Bomb : MonoBehaviour
 {
     public Sprite[] bombImages;
     private SpriteRenderer sr;  // For splatter particle effect
-    private Rigidbody2D rb;  // For splatter particle effect
+    private Rigidbody2D rb;   // For splatter particle effect
 
     public ParticleSystem DestroyEffect;
 
