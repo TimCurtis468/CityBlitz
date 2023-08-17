@@ -58,6 +58,8 @@
     <Analyzer Include="C:\Program Files\Unity 2022.2.9f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Bomb.cs" />
+    <Compile Include="Assets\Scripts\BombManager.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\BuildingBlockManager.cs" />
     <Compile Include="Assets\Scripts\BuildingBlock.cs" />

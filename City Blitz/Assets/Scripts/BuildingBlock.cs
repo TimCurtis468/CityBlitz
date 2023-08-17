@@ -16,6 +16,10 @@ public class BuildingBlock : MonoBehaviour
     //public static event Action<BuildingBlock> OnBrickDistruction;
     //public static event Action<BuildingBlock, int> OnBrickHit;
 
+    public void TargetHit()
+    {
+
+    }
 
     private void Awake()
     {

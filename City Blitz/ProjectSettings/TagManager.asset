@@ -3,7 +3,9 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Block
+  - Ground
   layers:
   - Default
   - TransparentFX
@@ -49,4 +51,7 @@ TagManager:
     locked: 0
   - name: Buildings
     uniqueID: 904144927
+    locked: 0
+  - name: Bomb
+    uniqueID: 2653998687
     locked: 0

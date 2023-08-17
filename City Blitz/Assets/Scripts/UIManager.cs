@@ -26,7 +26,7 @@ public class UIManager : MonoBehaviour
         //todo GameManager.OnLifeLost += OnLifeLost;
         //todo BuldingManager.OnLevelComplete += OnLevelComplete;
         //todo BuildingPart.OnPartDistruction += OnPartDistruction;
-        //todo BuildingPart.OnPartHit += OnPartHit;
+        Bomb.OnBombTargetHit += UpdateScoreText;
         UpdateScoreText(0);
 
         //transform = background_obj.transform;
@@ -94,7 +94,7 @@ public class UIManager : MonoBehaviour
         //GameManager.OnLifeLost -= OnLifeLost;
         //BuldingManager.OnLevelComplete -= OnLevelComplete;
         //BuildingPart.OnPartDistruction -= OnPartDistruction;
-        //BuildingPart.OnPartHit -= OnPartHit;
+        Bomb.OnBombTargetHit -= UpdateScoreText;
 
         GameManager.OnLifeGained -= OnLifeGained;
 

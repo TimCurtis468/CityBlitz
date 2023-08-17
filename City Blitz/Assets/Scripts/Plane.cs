@@ -188,7 +188,7 @@ public class Plane : MonoBehaviour
 
     private void CheckForPoohDrop()
     {
-        float poohSpeed = speed * -5000.0f;
+        float bombSpeed = speed * -5000.0f;
         if ((mouseButtonLatch == true) &&
             (mouseTimer < 1.0f))
         {
@@ -196,10 +196,10 @@ public class Plane : MonoBehaviour
             /* Pooh drop - create a pooh */
             if (isMovingLeft == false)
             {
-                poohSpeed = -poohSpeed;
+                bombSpeed = -bombSpeed;
             }
             // To do - drop bomb here
-            //PoohManager.Instance.SpawnPooh(pos, poohSpeed);
+            BombManager.Instance.SpawnBomb(pos, bombSpeed);
         }
     }
 }
