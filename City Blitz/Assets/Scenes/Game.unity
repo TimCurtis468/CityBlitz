@@ -533,6 +533,13 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 48b09f1d1b5baaa4a80252eb5b801708, type: 3}
   - {fileID: 21300000, guid: 0e9e172468fb1ba488d808f3472f8526, type: 3}
   - {fileID: 21300000, guid: b96673f6151d59d44b5cb81c1ed78b14, type: 3}
+  - {fileID: 21300000, guid: 9186c39f3834f2d41a82fde22f840470, type: 3}
+  - {fileID: 21300000, guid: f2d8e963ac90be342b9cc5fca32bb52e, type: 3}
+  - {fileID: 21300000, guid: 0c568d25e9f4c5749bd753eee586808a, type: 3}
+  - {fileID: 21300000, guid: 6f23e6796171e41419ce090b177d9de7, type: 3}
+  - {fileID: 21300000, guid: bb4f3e387b97aff4fa2e2c71dfcbee5f, type: 3}
+  - {fileID: 21300000, guid: 57c7ef890ee7889459a6bbd66ebc46ca, type: 3}
+  - {fileID: 21300000, guid: 4c526042f8b5435419e23bb8fff488a8, type: 3}
   midSprites:
   - {fileID: 21300000, guid: 04c761e88e888f54dba9c7c0bee938b3, type: 3}
   - {fileID: 21300000, guid: d1d146ffd5ebb154181e7af3ee0990b8, type: 3}
@@ -550,6 +557,13 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 80c1237c96c3a0f418eb596b2f50e49f, type: 3}
   - {fileID: 21300000, guid: 6ebfd6939d669bb47ba131a06a1dc83a, type: 3}
   - {fileID: 21300000, guid: a7f7788096ac7154085d2f71e760d9f6, type: 3}
+  - {fileID: 21300000, guid: 234cfe6bd3d32f5458b6ea53af59b529, type: 3}
+  - {fileID: 21300000, guid: 1b9bbb3264059ad41b314fdeaf114e84, type: 3}
+  - {fileID: 21300000, guid: 1afcf198911ba654d98ed4b011b5d3c3, type: 3}
+  - {fileID: 21300000, guid: a4a8c52f48e5d1840bb3df5c5350f6b6, type: 3}
+  - {fileID: 21300000, guid: f78c31bfaa0b1f3428335fc2c833ad6d, type: 3}
+  - {fileID: 21300000, guid: a69a15d35f9174543b9abe9bc95942bb, type: 3}
+  - {fileID: 21300000, guid: 1cc4f623f1ae9e74ebaf9e5cbbbcb46f, type: 3}
   topSprites:
   - {fileID: 21300000, guid: 69bf49f2097ca234bb4fc66767345005, type: 3}
   - {fileID: 21300000, guid: 08fad6dfd893d0d4daacf58d49c5b391, type: 3}
@@ -567,6 +581,13 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 7d7581d759f18334dbdf3ac4fef6a48d, type: 3}
   - {fileID: 21300000, guid: 40007c5714171f64587289f6e70867d2, type: 3}
   - {fileID: 21300000, guid: 257da70f62074ec48b3d2dce15381646, type: 3}
+  - {fileID: 21300000, guid: d3f9c544f1c16f746a1c0f03a13bdc9d, type: 3}
+  - {fileID: 21300000, guid: a6a5282b8a60d024d872b5045071bff1, type: 3}
+  - {fileID: 21300000, guid: 11ef1492a1c85e54eab2aa7092016311, type: 3}
+  - {fileID: 21300000, guid: 4230036f297ef20418cc563f27952a98, type: 3}
+  - {fileID: 21300000, guid: 39a5d7d8192605047abb066a40594db2, type: 3}
+  - {fileID: 21300000, guid: f8939875cf10cc54889692391ae00d37, type: 3}
+  - {fileID: 21300000, guid: df2f6b1ed2883de4993b8824f493f673, type: 3}
   levelNum: 0
 --- !u!1 &737281787
 GameObject:
