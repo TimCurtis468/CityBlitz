@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2184027830567452198}
   m_Layer: 7
   m_Name: BuildingBlock
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -32,7 +32,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2932561501879352690
 SpriteRenderer:
@@ -118,7 +118,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.02996397, y: -0.0049940348}
+  m_Offset: {x: -0.02996397, y: -0.3749418}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -129,7 +129,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.2996397, y: 1.3096273}
+  m_Size: {x: 1.2996397, y: 0.5697318}
   m_EdgeRadius: 0
 --- !u!114 &2184027830567452198
 MonoBehaviour:

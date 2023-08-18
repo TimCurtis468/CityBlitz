@@ -32,12 +32,17 @@ public class Bomb : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D coll)
     {
+        //Debug.Log("Collision: " + coll.gameObject.tag);
         switch (coll.gameObject.tag)
         {
-            case "Target":
+            case "Block":
+                //Debug.Log("Bomb Target hit");
                 BuildingBlock target = coll.gameObject.GetComponent<BuildingBlock>();
                 target.TargetHit();
                 OnBombTargetHit?.Invoke(1);
+                Destroy(this.gameObject, 0.1f);
+                OnBombDeath?.Invoke(this);
+                SpawnDestroyEffect();
                 break;
             case "Ground":
                 // Hit the ground and explode
