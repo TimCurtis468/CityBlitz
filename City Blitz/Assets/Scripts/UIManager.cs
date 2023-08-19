@@ -7,6 +7,7 @@ public class UIManager : MonoBehaviour
 {
     public Text ScoreText;
     public Text LivesText;
+    public Text LevelsText;
 
     public Sprite[] day_backgrounds;
 
@@ -55,6 +56,9 @@ public class UIManager : MonoBehaviour
 
     private void OnLevelComplete()
     {
+        string txt = "Level:: " + level.ToString();
+        LivesText.text = txt;
+
         if (day_backgrounds.Length > 0)
         {
             int background_num = UnityEngine.Random.Range(0, day_backgrounds.Length);

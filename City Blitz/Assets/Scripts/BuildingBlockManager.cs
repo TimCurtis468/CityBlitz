@@ -1,8 +1,17 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
+
+
+enum eEndOfLavelState
+{
+    eIdle,
+    eEndOfLevelDelay
+}
+
 
 public class BuildingBlockManager : MonoBehaviour
 {
@@ -25,9 +34,8 @@ public class BuildingBlockManager : MonoBehaviour
     }
     #endregion
 
-
-    private int MAX_FLOORS = 8;
-    private int numBuildings = 15;
+    private int MAX_FLOORS = 2;//8;
+    private int numBuildings = 2;//15;
     private float initialBlockSpawnPositionX = -2.075f;
     private float initialBlockSpawnPositionY = -4.5f;
     private float xshiftAmount = 0.275f;
@@ -53,6 +61,11 @@ public class BuildingBlockManager : MonoBehaviour
 
     public int InitialBlocksCount { get; set; }
 
+    /* End of level variables */
+    private eEndOfLavelState endOfLevelStateMachine = eEndOfLavelState.eIdle;
+    Stopwatch sw = new Stopwatch();
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -60,6 +73,50 @@ public class BuildingBlockManager : MonoBehaviour
         this.GenerateBlocks();
         levelNum = 0;
 
+    }
+
+    private void Update()
+    {
+
+        /* Todo - Put into Game Manager */
+        bool all_destroyed = AllBlockDestroyed();
+
+        if(all_destroyed == true)
+        {
+            if(endOfLevelStateMachine == eEndOfLavelState.eEndOfLevelDelay)
+            {
+                /* Wait for timeout */
+                if(sw.ElapsedMilliseconds > 5000)
+                {
+                    levelNum++;
+                    GenerateBlocks();
+                    sw.Reset();
+                    endOfLevelStateMachine = eEndOfLavelState.eIdle;
+                }
+            }
+            else
+            {
+                sw.Start();        /* Check for end of level */
+                endOfLevelStateMachine = eEndOfLavelState.eEndOfLevelDelay;
+            }
+        }
+    }
+
+    public bool AllBlockDestroyed()
+    {
+        bool all_destroyed = true;
+        int block_count = 0;
+
+        for (int idx = 0; idx < this.RemainingBlocks.Count; idx++)
+        {
+            if(RemainingBlocks[idx] != null)
+            {
+                all_destroyed = false;
+                block_count++;
+            }
+        }
+
+       return all_destroyed;
     }
 
     private void GenerateBlocks()
@@ -80,7 +137,7 @@ public class BuildingBlockManager : MonoBehaviour
         for (int building_num = 0; building_num < this.numBuildings; building_num++)
         {
             building_image_num = UnityEngine.Random.Range(1, this.baseSprites.Length);
-            size = UnityEngine.Random.Range(3, MAX_FLOORS + 1);
+            size = UnityEngine.Random.Range(1, MAX_FLOORS + 1);
             building_sizes[building_num] = size;
 
             b_color = UnityEngine.Random.Range(0x7F, 0xFF);
@@ -118,69 +175,6 @@ public class BuildingBlockManager : MonoBehaviour
 
         }
 
-#if PI
-        newBlock = Instantiate(blockPrefab, new Vector3(currentSpawnX, currentSpawnY, 0 - zShift), Quaternion.identity) as BuildingBlock;
-            newBlock.Init(bricksContainer.transform, this.baseSprites[1], GetColour(0xFFFFFF), 1);
-
-            //Utilities.ResizeSprite(newBlock.gameObject);
-
-            this.RemainingBlocks.Add(newBlock);
-            zShift += 0.0001f;
-
-            currentSpawnX += Utilities.ResizeXValue(xshiftAmount);
-            if (col + 1 >= this.numBuildings)
-            {
-                currentSpawnX = Utilities.ResizeXValue(initialBlockSpawnPositionX);
-            }
-        }
-
-        currentSpawnY += Utilities.ResizeYValue(yshiftAmount);
-        zShift = ((row + 1) * 0.0005f);
-
-
-        for (row = 1; row <= this.numFloors; row++)
-        {
-
-            for (int col = 0; col < this.numBuildings; col++)
-            {
-                BuildingBlock newBlock = Instantiate(blockPrefab, new Vector3(currentSpawnX, currentSpawnY, 0 - zShift), Quaternion.identity) as BuildingBlock;
-                newBlock.Init(bricksContainer.transform, this.midSprites[1], GetColour(0xFFFFFF), 1);
-
-                //Utilities.ResizeSprite(newBlock.gameObject);
-
-                this.RemainingBlocks.Add(newBlock);
-                zShift += 0.0001f;
-
-                currentSpawnX += Utilities.ResizeXValue(xshiftAmount);
-                if (col + 1 >= this.numBuildings)
-                {
-                    currentSpawnX = Utilities.ResizeXValue(initialBlockSpawnPositionX);
-                }
-            }
-
-            currentSpawnY += Utilities.ResizeYValue(yshiftAmount);
-            zShift = ((row + 1) * 0.0005f);
-        }
-
-        row = this.numFloors + 1;
-
-        for (int col = 0; col < this.numBuildings; col++)
-        {
-            BuildingBlock newBlock = Instantiate(blockPrefab, new Vector3(currentSpawnX, currentSpawnY, 0 - zShift), Quaternion.identity) as BuildingBlock;
-            newBlock.Init(bricksContainer.transform, this.topSprites[1], GetColour(0xFFFFFF), 1);
-
-            //Utilities.ResizeSprite(newBlock.gameObject);
-
-            this.RemainingBlocks.Add(newBlock);
-            zShift += 0.0001f;
-
-            currentSpawnX += Utilities.ResizeXValue(xshiftAmount);
-            if (col + 1 >= this.numBuildings)
-            {
-                currentSpawnX = Utilities.ResizeXValue(initialBlockSpawnPositionX);
-            }
-        }
-#endif
         this.InitialBlocksCount = this.RemainingBlocks.Count;
         OnLevelLoaded?.Invoke();
 
