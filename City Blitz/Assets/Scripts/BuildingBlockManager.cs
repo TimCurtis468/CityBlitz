@@ -1,16 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
-
-
-enum eEndOfLavelState
-{
-    eIdle,
-    eEndOfLevelDelay
-}
 
 
 public class BuildingBlockManager : MonoBehaviour
@@ -34,8 +26,8 @@ public class BuildingBlockManager : MonoBehaviour
     }
     #endregion
 
-    private int MAX_FLOORS = 2;//8;
-    private int numBuildings = 2;//15;
+    private int MAX_FLOORS = 8;
+    private int numBuildings = 15;
     private float initialBlockSpawnPositionX = -2.075f;
     private float initialBlockSpawnPositionY = -4.5f;
     private float xshiftAmount = 0.275f;
@@ -57,13 +49,7 @@ public class BuildingBlockManager : MonoBehaviour
 
     public List<BuildingBlock> RemainingBlocks { get; set; }
 
-    public int levelNum = 0;
-
     public int InitialBlocksCount { get; set; }
-
-    /* End of level variables */
-    private eEndOfLavelState endOfLevelStateMachine = eEndOfLavelState.eIdle;
-    Stopwatch sw = new Stopwatch();
 
 
     // Start is called before the first frame update
@@ -71,35 +57,6 @@ public class BuildingBlockManager : MonoBehaviour
     {
         this.bricksContainer = new GameObject("BlocksContainer");
         this.GenerateBlocks();
-        levelNum = 0;
-
-    }
-
-    private void Update()
-    {
-
-        /* Todo - Put into Game Manager */
-        bool all_destroyed = AllBlockDestroyed();
-
-        if(all_destroyed == true)
-        {
-            if(endOfLevelStateMachine == eEndOfLavelState.eEndOfLevelDelay)
-            {
-                /* Wait for timeout */
-                if(sw.ElapsedMilliseconds > 5000)
-                {
-                    levelNum++;
-                    GenerateBlocks();
-                    sw.Reset();
-                    endOfLevelStateMachine = eEndOfLavelState.eIdle;
-                }
-            }
-            else
-            {
-                sw.Start();        /* Check for end of level */
-                endOfLevelStateMachine = eEndOfLavelState.eEndOfLevelDelay;
-            }
-        }
     }
 
     public bool AllBlockDestroyed()
@@ -119,7 +76,7 @@ public class BuildingBlockManager : MonoBehaviour
        return all_destroyed;
     }
 
-    private void GenerateBlocks()
+    public void GenerateBlocks()
     {
         this.RemainingBlocks = new List<BuildingBlock>();
         float currentSpawnX = Utilities.ResizeXValue(initialBlockSpawnPositionX);

@@ -1,8 +1,15 @@
 using System;
 using System.Collections;
+using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+
+enum eEndOfLavelState
+{
+    eIdle,
+    eEndOfLevelDelay
+}
 
 public class GameManager : MonoBehaviour
 {
@@ -32,8 +39,9 @@ public class GameManager : MonoBehaviour
 
 //    public static event Action<int> OnLifeLost;
     public static event Action<int> OnLifeGained;
+    public static event Action<int> OnLevelComplete;
 
-//    public GameObject background;
+    //    public GameObject background;
     public GameObject gameOver;
     public bool buffActive = false;
     public bool gameOverActive = false;
@@ -42,9 +50,14 @@ public class GameManager : MonoBehaviour
     private int endScore = 0;
 
     private int level = 1;
-////    private int nextAd = 2;
+    ////    private int nextAd = 2;
 
-//    private int numResurrections = 0;
+    //    private int numResurrections = 0;
+
+    /* End of level variables */
+    private eEndOfLavelState endOfLevelStateMachine = eEndOfLavelState.eIdle;
+    private Stopwatch sw = new Stopwatch();
+    private int endOfLevelTimeout = 1000;
 
     private void Start()
     {
@@ -78,6 +91,32 @@ public class GameManager : MonoBehaviour
 
     public void Update()
     {
+
+        /* Todo - Put into Game Manager */
+        bool all_destroyed = BuildingBlockManager.Instance.AllBlockDestroyed();
+
+        if (all_destroyed == true)
+        {
+            if (endOfLevelStateMachine == eEndOfLavelState.eEndOfLevelDelay)
+            {
+                /* Wait for timeout */
+                if (sw.ElapsedMilliseconds > endOfLevelTimeout)
+                {
+                    level++;
+                    OnLevelComplete?.Invoke(this.level);
+                    BuildingBlockManager.Instance.GenerateBlocks();
+                    sw.Reset();
+                    endOfLevelStateMachine = eEndOfLavelState.eIdle;
+                }
+            }
+            else
+            {
+                sw.Start();        /* Check for end of level */
+                endOfLevelStateMachine = eEndOfLavelState.eEndOfLevelDelay;
+            }
+        }
+
+
 #if (PI)
         if (gameOverActive == true)
         {

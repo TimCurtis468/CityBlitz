@@ -25,7 +25,7 @@ public class UIManager : MonoBehaviour
 
         GameManager.OnLifeGained += OnLifeGained;
         //todo GameManager.OnLifeLost += OnLifeLost;
-        //todo BuldingManager.OnLevelComplete += OnLevelComplete;
+        GameManager.OnLevelComplete += OnLevelComplete;
         //todo BuildingPart.OnPartDistruction += OnPartDistruction;
         Bomb.OnBombTargetHit += UpdateScoreText;
         UpdateScoreText(0);
@@ -54,10 +54,10 @@ public class UIManager : MonoBehaviour
 
     }
 
-    private void OnLevelComplete()
+    private void OnLevelComplete(int newLevel)
     {
-        string txt = "Level:: " + level.ToString();
-        LivesText.text = txt;
+        string txt = "Level: " + newLevel.ToString();
+        LevelsText.text = txt;
 
         if (day_backgrounds.Length > 0)
         {
@@ -96,7 +96,7 @@ public class UIManager : MonoBehaviour
     private void OnDisable()
     {
         //GameManager.OnLifeLost -= OnLifeLost;
-        //BuldingManager.OnLevelComplete -= OnLevelComplete;
+        GameManager.OnLevelComplete += OnLevelComplete;
         //BuildingPart.OnPartDistruction -= OnPartDistruction;
         Bomb.OnBombTargetHit -= UpdateScoreText;
 
