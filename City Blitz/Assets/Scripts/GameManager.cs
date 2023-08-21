@@ -104,7 +104,7 @@ public class GameManager : MonoBehaviour
                 {
                     level++;
                     OnLevelComplete?.Invoke(this.level);
-                    BuildingBlockManager.Instance.GenerateBlocks();
+                    BuildingBlockManager.Instance.GenerateBlocks(level);
                     sw.Reset();
                     endOfLevelStateMachine = eEndOfLavelState.eIdle;
                 }

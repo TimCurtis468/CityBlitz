@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 
 
+
 public class BuildingBlockManager : MonoBehaviour
 {
     #region Singleton
@@ -27,7 +28,7 @@ public class BuildingBlockManager : MonoBehaviour
     #endregion
 
     private int MAX_FLOORS = 8;
-    private int numBuildings = 15;
+    private int MAX_NUM_BUILDINGS = 15;
     private float initialBlockSpawnPositionX = -2.075f;
     private float initialBlockSpawnPositionY = -4.5f;
     private float xshiftAmount = 0.275f;
@@ -51,12 +52,30 @@ public class BuildingBlockManager : MonoBehaviour
 
     public int InitialBlocksCount { get; set; }
 
+    /* Define {num buldings, num blocks} for each level  */
+    private int[,] levels = {
+        { 2, 3 },
+        { 2, 3 },
+        { 3, 4 },
+        { 4, 4 },
+        { 5, 5 },
+        { 6, 5 },
+        { 7, 6 },
+        { 8, 6 },
+        { 10, 7 },
+        { 11, 7 },
+        { 12, 8 },
+        { 13, 8 },
+        { 14, 8 },
+        { 15, 8 }
+    };
+
 
     // Start is called before the first frame update
     void Start()
     {
         this.bricksContainer = new GameObject("BlocksContainer");
-        this.GenerateBlocks();
+        this.GenerateBlocks(1);
     }
 
     public bool AllBlockDestroyed()
@@ -76,7 +95,7 @@ public class BuildingBlockManager : MonoBehaviour
        return all_destroyed;
     }
 
-    public void GenerateBlocks()
+    public void GenerateBlocks(int level)
     {
         this.RemainingBlocks = new List<BuildingBlock>();
         float currentSpawnX = Utilities.ResizeXValue(initialBlockSpawnPositionX);
@@ -90,20 +109,34 @@ public class BuildingBlockManager : MonoBehaviour
 
         BuildingBlock newBlock;
 
+        int num_buildings = 2;
+        int num_floors = 3;
+
+        if(level < levels.Length)
+        {
+            num_buildings = levels[level, 0];
+            num_floors = levels[level, 1];
+        }
+        else
+        {
+            num_buildings = MAX_NUM_BUILDINGS;
+            num_floors = MAX_FLOORS;
+        }
+
         /* Base row */
-        for (int building_num = 0; building_num < this.numBuildings; building_num++)
+        for (int building_num = 0; building_num < num_buildings; building_num++)
         {
             building_image_num = UnityEngine.Random.Range(1, this.baseSprites.Length);
-            size = UnityEngine.Random.Range(1, MAX_FLOORS + 1);
+            size = UnityEngine.Random.Range(2, num_floors);
             building_sizes[building_num] = size;
 
             b_color = UnityEngine.Random.Range(0x7F, 0xFF);
             b_color = (b_color << 8) + UnityEngine.Random.Range(0x7F, 0xFF);
             b_color = (b_color << 8) + UnityEngine.Random.Range(0x7F, 0xFF);
 
-            for (row = 0; row <= size; row++)
+            for (row = 1; row <= size; row++)
             {
-                if (row == 0)
+                if (row == 1)
                 {
                     newBlock = Instantiate(blockPrefab, new Vector3(currentSpawnX, currentSpawnY, 0 - zShift), Quaternion.identity) as BuildingBlock;
                     newBlock.Init(bricksContainer.transform, this.baseSprites[building_image_num], GetColour(b_color), 1);
