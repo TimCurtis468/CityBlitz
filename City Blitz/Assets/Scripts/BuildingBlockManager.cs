@@ -54,8 +54,9 @@ public class BuildingBlockManager : MonoBehaviour
 
     /* Define {num buldings, num blocks} for each level  */
     private int[,] levels = {
+        { 0, 0 },
         { 2, 3 },
-        { 2, 3 },
+        { 3, 3 },
         { 3, 4 },
         { 4, 4 },
         { 5, 5 },
@@ -123,6 +124,85 @@ public class BuildingBlockManager : MonoBehaviour
             num_floors = MAX_FLOORS;
         }
 
+        for (int building_num = 0; building_num < num_buildings; building_num++)
+        {
+            int building_idx = UnityEngine.Random.Range(0, MAX_NUM_BUILDINGS);
+
+            building_image_num = UnityEngine.Random.Range(1, this.baseSprites.Length);
+            size = UnityEngine.Random.Range(2, num_floors);
+
+            b_color = UnityEngine.Random.Range(0x7F, 0xFF);
+            b_color = (b_color << 8) + UnityEngine.Random.Range(0x7F, 0xFF);
+            b_color = (b_color << 8) + UnityEngine.Random.Range(0x7F, 0xFF);
+
+            if (building_sizes[building_idx] == 0)
+            {
+                building_sizes[building_idx] = size;
+            }
+            else
+            {
+                int count = 0;
+                /* Search for next free slot */
+                while ((building_sizes[building_idx] != 0) && (count < MAX_NUM_BUILDINGS))
+                {
+                    building_idx++;
+                    /* Move to start of array if end is reached */
+                    if (building_idx >= MAX_NUM_BUILDINGS)
+                    {
+                        building_idx = 0;
+                    }
+                    Debug.Log("building_idx: " + building_idx.ToString());
+                    /* Is this an empty slot? */
+                    if (building_sizes[building_idx] == 0)
+                    {
+                        /* Yes - store size */
+                        building_sizes[building_idx] = size;
+                        break;
+                    }
+                    count++;
+                }
+            }
+
+            /* Create building */
+            currentSpawnX = Utilities.ResizeXValue(initialBlockSpawnPositionX);
+            currentSpawnX += Utilities.ResizeXValue(xshiftAmount * building_idx);
+            Debug.Log("currentSpawnX: " + currentSpawnX.ToString());
+            currentSpawnY = Utilities.ResizeYValue(initialBlockSpawnPositionY);
+
+            /* Add rows of blocks */
+            for (row = 1; row <= size; row++)
+            {
+                if (row == 1)
+                {
+                    newBlock = Instantiate(blockPrefab, new Vector3(currentSpawnX, currentSpawnY, 0 - zShift), Quaternion.identity) as BuildingBlock;
+                    newBlock.Init(bricksContainer.transform, this.baseSprites[building_image_num], GetColour(b_color), 1);
+                }
+                else if (row < size)
+                {
+                    newBlock = Instantiate(blockPrefab, new Vector3(currentSpawnX, currentSpawnY, 0 - zShift), Quaternion.identity) as BuildingBlock;
+                    newBlock.Init(bricksContainer.transform, this.midSprites[building_image_num], GetColour(b_color), 1);
+                }
+                else
+                {
+                    newBlock = Instantiate(blockPrefab, new Vector3(currentSpawnX, currentSpawnY, 0 - zShift), Quaternion.identity) as BuildingBlock;
+                    newBlock.Init(bricksContainer.transform, this.topSprites[building_image_num], GetColour(b_color), 1);
+                }
+
+                this.RemainingBlocks.Add(newBlock);
+                zShift += 0.0001f;
+
+                currentSpawnY += Utilities.ResizeYValue(yshiftAmount);
+                zShift += 0.0001f;
+            }
+            zShift = ((building_num + 1) * 0.0005f);
+        }
+
+        this.InitialBlocksCount = this.RemainingBlocks.Count;
+        OnLevelLoaded?.Invoke();
+
+
+
+#if PI
         /* Base row */
         for (int building_num = 0; building_num < num_buildings; building_num++)
         {
@@ -167,7 +247,7 @@ public class BuildingBlockManager : MonoBehaviour
 
         this.InitialBlocksCount = this.RemainingBlocks.Count;
         OnLevelLoaded?.Invoke();
-
+#endif
     }
 
     private void ClearRemainingBlocks()

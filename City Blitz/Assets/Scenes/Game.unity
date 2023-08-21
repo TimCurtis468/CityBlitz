@@ -669,7 +669,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 39a5d7d8192605047abb066a40594db2, type: 3}
   - {fileID: 21300000, guid: f8939875cf10cc54889692391ae00d37, type: 3}
   - {fileID: 21300000, guid: df2f6b1ed2883de4993b8824f493f673, type: 3}
-  levelNum: 0
 --- !u!1 &737281787
 GameObject:
   m_ObjectHideFlags: 0
@@ -1223,6 +1222,12 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 7dbce939bfbfbe74184baee07410f3c1, type: 3}
   - {fileID: 21300000, guid: 4721b4475f4038641b984df0338340ed, type: 3}
   - {fileID: 21300000, guid: f3af1c63ffbaa3a4a937ec8389205417, type: 3}
+  night_backgrounds:
+  - {fileID: 21300000, guid: af2342ab58baf7140afb515edd2c2b16, type: 3}
+  - {fileID: 21300000, guid: 4ce3f8be7d3940344ada7f5aff7485a2, type: 3}
+  - {fileID: 21300000, guid: 9445a2d85f0a0ed48b31ddb793a6bafc, type: 3}
+  - {fileID: 21300000, guid: e2348c7f4c8d1584db8eb4887b37d641, type: 3}
+  - {fileID: 21300000, guid: 553e4506b368de642bb00bafec4c7b49, type: 3}
   background_obj: {fileID: 303465731}
 --- !u!1 &1861024577
 GameObject:

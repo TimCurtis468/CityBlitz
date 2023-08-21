@@ -10,11 +10,14 @@ public class UIManager : MonoBehaviour
     public Text LevelsText;
 
     public Sprite[] day_backgrounds;
+    public Sprite[] night_backgrounds;
 
     private SpriteRenderer spriteRenderer;
 
     public GameObject background_obj;
 
+    private bool is_daytime = true;
+    
     public int Score { get; set; }
 
     private void Start()
@@ -39,6 +42,7 @@ public class UIManager : MonoBehaviour
 
     private void Awake()
     {
+        is_daytime = true;
         spriteRenderer = background_obj.GetComponent<SpriteRenderer>();
 
         OnLifeLost(GameManager.Instance.AvailableLives);
@@ -59,10 +63,25 @@ public class UIManager : MonoBehaviour
         string txt = "Level: " + newLevel.ToString();
         LevelsText.text = txt;
 
-        if (day_backgrounds.Length > 0)
+        if (is_daytime == true)
         {
-            int background_num = UnityEngine.Random.Range(0, day_backgrounds.Length);
-            spriteRenderer.sprite = day_backgrounds[background_num];
+            if (day_backgrounds.Length > 0)
+            {
+                int background_num = UnityEngine.Random.Range(0, day_backgrounds.Length);
+                spriteRenderer.sprite = day_backgrounds[background_num];
+            }
+            is_daytime = false;
+        }
+        else
+        {
+            if (night_backgrounds.Length > 0)
+            {
+                int background_num = UnityEngine.Random.Range(0, night_backgrounds.Length);
+                spriteRenderer.sprite = night_backgrounds[background_num];
+            }
+
+            is_daytime = true;
+
         }
     }
 
