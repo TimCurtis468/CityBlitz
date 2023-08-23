@@ -107,6 +107,7 @@ public class GameManager : MonoBehaviour
                     BuildingBlockManager.Instance.GenerateBlocks(level);
                     sw.Reset();
                     endOfLevelStateMachine = eEndOfLavelState.eIdle;
+                    Plane.Instance.resetPlane();
                 }
             }
             else

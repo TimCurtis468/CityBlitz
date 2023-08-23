@@ -55,19 +55,10 @@ public class BuildingBlockManager : MonoBehaviour
     /* Define {num buldings, num blocks} for each level  */
     private int[,] levels = {
         { 0, 0 },
-        { 2, 3 },
-        { 3, 3 },
-        { 3, 4 },
-        { 4, 4 },
-        { 5, 5 },
-        { 6, 5 },
-        { 7, 6 },
-        { 8, 6 },
-        { 10, 7 },
-        { 11, 7 },
+        { 2, 7 },
+        { 6, 7 },
+        { 10, 8 },
         { 12, 8 },
-        { 13, 8 },
-        { 14, 8 },
         { 15, 8 }
     };
 
@@ -151,7 +142,7 @@ public class BuildingBlockManager : MonoBehaviour
                     {
                         building_idx = 0;
                     }
-                    Debug.Log("building_idx: " + building_idx.ToString());
+
                     /* Is this an empty slot? */
                     if (building_sizes[building_idx] == 0)
                     {
@@ -166,7 +157,6 @@ public class BuildingBlockManager : MonoBehaviour
             /* Create building */
             currentSpawnX = Utilities.ResizeXValue(initialBlockSpawnPositionX);
             currentSpawnX += Utilities.ResizeXValue(xshiftAmount * building_idx);
-            Debug.Log("currentSpawnX: " + currentSpawnX.ToString());
             currentSpawnY = Utilities.ResizeYValue(initialBlockSpawnPositionY);
 
             /* Add rows of blocks */

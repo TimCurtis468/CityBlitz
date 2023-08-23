@@ -26,6 +26,7 @@ public class Plane : MonoBehaviour
 
     public Animator animator;
     public float speed;
+    private float current_min_speed;
 
     private bool isMovingLeft = true;
 
@@ -44,13 +45,18 @@ public class Plane : MonoBehaviour
 
     private float MAX_SPEED = 0.075f;
     private float MIN_SPEED = 0.0125f;
+    private float SPEED_INC = 0.0006f;
     private float DELTA_TIME_BASE = 0.0035f;
+
+    private float PLANE_DROP_VALUE = 0.2f;
+    private float start_height = 5.0f;
 
     // Start is called before the first frame update
     void Start()
     {
         animator.SetBool("IsMovingLeft", true);
         speed = MIN_SPEED;
+        current_min_speed = MIN_SPEED;
         isMovingLeft = true;
 
         screenEdgeOffset = Utilities.ResizeXValue(screenEdgeOffset);
@@ -61,8 +67,8 @@ public class Plane : MonoBehaviour
         SetClamps();
 
         isActive = true;
-
         mouseButtonLatch = false;
+        start_height = planeInitialY;
     }
 
     // Update is called once per frame
@@ -93,6 +99,12 @@ public class Plane : MonoBehaviour
         return mouseButtonLatch;
     }
 
+    public void resetPlane()
+    {
+        planeInitialY = start_height;
+        current_min_speed  = MIN_SPEED;
+    }
+
     private void SetClamps()
     {
         float objectWidth = sr.bounds.extents.x;
@@ -116,7 +128,7 @@ public class Plane : MonoBehaviour
         else if (Input.GetMouseButtonUp(0) == true)
         {
             /* Check to see if pooh should be dropped */
-            CheckForPoohDrop();
+            CheckForBombDrop();
 
             /* Clear mouse button latch */
             mouseButtonLatch = false;
@@ -149,9 +161,9 @@ public class Plane : MonoBehaviour
         {
             /* No - slow down until minimum */
             speed = speed / 1.01f;
-            if (speed <= MIN_SPEED)
+            if (speed <= current_min_speed)
             {
-                speed = MIN_SPEED;
+                speed = current_min_speed;
             }
         }
     }
@@ -168,6 +180,9 @@ public class Plane : MonoBehaviour
             {
                 isMovingLeft = false;
                 animator.SetBool("IsMovingLeft", false);
+                planeInitialY -= PLANE_DROP_VALUE;
+                current_min_speed += SPEED_INC;
+                speed = current_min_speed;
                 //Debug.Log("Moving Right");
             }
         }
@@ -179,27 +194,24 @@ public class Plane : MonoBehaviour
                 isMovingLeft = true;
                 animator.SetBool("IsMovingLeft", true);
                 //Debug.Log("Moving Left");
-
+                planeInitialY -= PLANE_DROP_VALUE;
+                current_min_speed += SPEED_INC;
+                speed = current_min_speed;
             }
         }
 
         transform.position = new Vector3(planePositionX, planeInitialY, 0);
     }
 
-    private void CheckForPoohDrop()
+    private void CheckForBombDrop()
     {
         //float bombSpeed = speed * -5000.0f;
         if ((mouseButtonLatch == true) &&
             (mouseTimer < 1.0f))
         {
             Vector3 pos = new Vector3(this.transform.position.x, this.transform.position.y);
-            /* Pooh drop - create a pooh */
-            //if (isMovingLeft == false)
-            //{
-            //    bombSpeed = -bombSpeed;
-            //}
-            // To do - drop bomb here
-            BombManager.Instance.SpawnBomb(pos, 0); // bombSpeed);
+
+            BombManager.Instance.SpawnBomb(pos, 0);
         }
     }
 }

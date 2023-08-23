@@ -56,7 +56,7 @@ public class BombManager : MonoBehaviour
             }
             else
             {
-                Debug.Log("SpawnPooh - poohPrefab is NULL!!");
+                Debug.Log("SpawnBomb - bombPrefab is NULL!!");
             }
         }
     }
