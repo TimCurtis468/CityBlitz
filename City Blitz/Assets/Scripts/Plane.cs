@@ -1,7 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
+
 using UnityEngine;
-using UnityEngine.UI;
+using static UnityEngine.ParticleSystem;
 
 public class Plane : MonoBehaviour
 {
@@ -47,9 +47,16 @@ public class Plane : MonoBehaviour
     private float MIN_SPEED = 0.0125f;
     private float SPEED_INC = 0.0006f;
     private float DELTA_TIME_BASE = 0.0035f;
+    private float BOMB_OFFSET = 0.75f;
 
     private float PLANE_DROP_VALUE = 0.2f;
     private float start_height = 5.0f;
+
+    public ParticleSystem PlaneDestroyEffect;
+
+    /* Variables to reset plane with delay */
+    private bool plane_resetting = false;
+    private DateTime start_delay;
 
     // Start is called before the first frame update
     void Start()
@@ -69,13 +76,33 @@ public class Plane : MonoBehaviour
         isActive = true;
         mouseButtonLatch = false;
         start_height = planeInitialY;
+
+        plane_resetting = false;
+
+        BuildingBlock.OnPlaneCrash += OnPlaneCrash;
     }
 
     // Update is called once per frame
     void Update()
     {
-        ProcessPlaneSpeed();
-        CheckForEdgeOfScreen();
+        if (plane_resetting == false)
+        {
+            ProcessPlaneSpeed();
+            CheckForEdgeOfScreen();
+        }
+        CheckForPlaneReset();
+    }
+
+    private void CheckForPlaneReset()
+    {
+        if (plane_resetting == true)
+        {
+            if ((DateTime.Now - start_delay).TotalSeconds > 1)
+            {
+                plane_resetting = false;
+                resetPlane();
+            }
+        }
     }
 
     public float GetPlaneHeight()
@@ -101,8 +128,16 @@ public class Plane : MonoBehaviour
 
     public void resetPlane()
     {
+        float planePositionX = transform.position.x;
+
         planeInitialY = start_height;
         current_min_speed  = MIN_SPEED;
+        speed = MIN_SPEED;
+        planePositionX = rightClamp;
+        isMovingLeft = true;
+        animator.SetBool("IsMovingLeft", true);
+
+        transform.position = new Vector3(planePositionX, planeInitialY, 0);
     }
 
     private void SetClamps()
@@ -215,9 +250,33 @@ public class Plane : MonoBehaviour
         if ((mouseButtonLatch == true) &&
             (mouseTimer < 1.0f))
         {
-            Vector3 pos = new Vector3(this.transform.position.x, this.transform.position.y);
+            Vector3 pos = new Vector3(this.transform.position.x, this.transform.position.y - BOMB_OFFSET);
 
             BombManager.Instance.SpawnBomb(pos, 0);
         }
     }
+
+    private void OnPlaneCrash()
+    {
+        start_delay = DateTime.Now;
+        plane_resetting = true;
+        SpawnDestroyEffect();
+    }
+
+    private void SpawnDestroyEffect()
+    {
+        Vector3 planePos = gameObject.transform.position;
+        Vector3 spawnPosition = new Vector3(planePos.x, planePos.y, planePos.z - 0.2f);
+        GameObject effect = Instantiate(PlaneDestroyEffect.gameObject, spawnPosition, Quaternion.identity);
+
+        MainModule mm = effect.GetComponent<ParticleSystem>().main;
+        mm.startColor = this.sr.color;
+        Destroy(effect, PlaneDestroyEffect.main.startLifetime.constant);
+    }
+
+    private void OnDisable()
+    {
+        BuildingBlock.OnPlaneCrash -= OnPlaneCrash;
+    }
+
 }

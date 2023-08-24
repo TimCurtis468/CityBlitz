@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
     #endregion
 
     public int AvailableLives = 3;
-        public int Lives { get; set; }
+    public int Lives { get; set; } = 3;
 
     public bool IsGameStarted { get; set; }
         public bool paused = false;
@@ -87,6 +87,7 @@ public class GameManager : MonoBehaviour
         //todo TargetManager.Instance.CreateTarget();
 
         //todo CloudManager.Instance.CreateStartClouds();
+
     }
 
     public void Update()
@@ -163,6 +164,16 @@ public class GameManager : MonoBehaviour
 //        SoundFxManager.Instance.PlayHeart();
         Lives++;
         OnLifeGained?.Invoke(this.Lives);
+    }
+
+    public void DecrementLives()
+    {
+        Lives--;
+
+        if(Lives <= 0)
+        {
+            /* GAME OVER */
+        }
     }
 #if (PI)
     private void DeathCheck()

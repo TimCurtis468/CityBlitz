@@ -155,6 +155,7 @@ public class BuildingBlockManager : MonoBehaviour
                 }
             }
 
+
             /* Create building */
             currentSpawnX = Utilities.ResizeXValue(initialBlockSpawnPositionX);
             currentSpawnX += Utilities.ResizeXValue(xshiftAmount * building_idx);

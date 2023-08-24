@@ -1,4 +1,4 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,6 +15,8 @@ public class BuildingBlock : MonoBehaviour
 
     //public static event Action<BuildingBlock> OnBrickDistruction;
     //public static event Action<BuildingBlock, int> OnBrickHit;
+    public static Action OnPlaneCrash;
+
 
     public void TargetHit()
     {
@@ -29,9 +31,14 @@ public class BuildingBlock : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        //Debug.Log("BuildingBlock Hit by " + collision.gameObject.tag);
         if (collision.gameObject.tag == "Bomb")
         {
             TakeDamage();
+        }
+        else if (collision.gameObject.tag == "Plane")
+        {
+            OnPlaneCrash?.Invoke();
         }
     }
 
@@ -41,6 +48,10 @@ public class BuildingBlock : MonoBehaviour
         if (collision.gameObject.tag == "Bomb")
         {
             TakeDamage();
+        }
+        else if (collision.gameObject.tag == "Plane")
+        {
+            OnPlaneCrash?.Invoke();
         }
     }
 

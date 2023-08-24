@@ -27,9 +27,9 @@ public class UIManager : MonoBehaviour
         //Transform childTransform;
 
         GameManager.OnLifeGained += OnLifeGained;
-        //todo GameManager.OnLifeLost += OnLifeLost;
+
         GameManager.OnLevelComplete += OnLevelComplete;
-        //todo BuildingPart.OnPartDistruction += OnPartDistruction;
+        BuildingBlock.OnPlaneCrash += OnPlaneCrash;
         Bomb.OnBombTargetHit += UpdateScoreText;
         UpdateScoreText(0);
 
@@ -45,17 +45,16 @@ public class UIManager : MonoBehaviour
         is_daytime = true;
         spriteRenderer = background_obj.GetComponent<SpriteRenderer>();
 
-        OnLifeLost(GameManager.Instance.AvailableLives);
+        string txt = "LIVES: " + GameManager.Instance.Lives.ToString();
+        LivesText.text = txt;
     }
 
 
-    private void OnLifeLost(int remainingLives)
+    private void OnPlaneCrash()
     {
-
-        string txt = "LIVES: " + remainingLives.ToString();
+        GameManager.Instance.DecrementLives();
+        string txt = "LIVES: " + GameManager.Instance.Lives.ToString();
         LivesText.text = txt;
-
-
     }
 
     private void OnLevelComplete(int newLevel)
@@ -114,11 +113,9 @@ public class UIManager : MonoBehaviour
 
     private void OnDisable()
     {
-        //GameManager.OnLifeLost -= OnLifeLost;
-        GameManager.OnLevelComplete += OnLevelComplete;
-        //BuildingPart.OnPartDistruction -= OnPartDistruction;
+        GameManager.OnLevelComplete -= OnLevelComplete;
+        BuildingBlock.OnPlaneCrash -= OnPlaneCrash;
         Bomb.OnBombTargetHit -= UpdateScoreText;
-
         GameManager.OnLifeGained -= OnLifeGained;
 
     }
