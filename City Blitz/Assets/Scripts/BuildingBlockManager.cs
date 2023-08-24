@@ -104,7 +104,8 @@ public class BuildingBlockManager : MonoBehaviour
         int num_buildings = 2;
         int num_floors = 3;
 
-        if(level < levels.Length)
+        //Debug.Log("Level: " + level.ToString() + ", levels.Length:" + levels.Length.ToString());
+        if (level < (levels.Length / 2))
         {
             num_buildings = levels[level, 0];
             num_floors = levels[level, 1];
@@ -138,7 +139,7 @@ public class BuildingBlockManager : MonoBehaviour
                 {
                     building_idx++;
                     /* Move to start of array if end is reached */
-                    if (building_idx >= MAX_NUM_BUILDINGS)
+                    if (building_idx > MAX_NUM_BUILDINGS)
                     {
                         building_idx = 0;
                     }

@@ -182,7 +182,10 @@ public class Plane : MonoBehaviour
                 animator.SetBool("IsMovingLeft", false);
                 planeInitialY -= PLANE_DROP_VALUE;
                 current_min_speed += SPEED_INC;
-                speed = current_min_speed;
+                if (speed < current_min_speed)
+                {
+                    speed = current_min_speed;
+                }
                 //Debug.Log("Moving Right");
             }
         }
@@ -196,7 +199,10 @@ public class Plane : MonoBehaviour
                 //Debug.Log("Moving Left");
                 planeInitialY -= PLANE_DROP_VALUE;
                 current_min_speed += SPEED_INC;
-                speed = current_min_speed;
+                if (speed < current_min_speed)
+                {
+                    speed = current_min_speed;
+                }
             }
         }
 
