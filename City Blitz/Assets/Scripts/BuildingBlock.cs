@@ -29,13 +29,19 @@ public class BuildingBlock : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        TakeDamage();
+        if (collision.gameObject.tag == "Bomb")
+        {
+            TakeDamage();
+        }
     }
 
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        TakeDamage();
+        if (collision.gameObject.tag == "Bomb")
+        {
+            TakeDamage();
+        }
     }
 
     private void TakeDamage()
