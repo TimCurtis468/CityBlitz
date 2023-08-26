@@ -139,7 +139,7 @@ public class BuildingBlockManager : MonoBehaviour
                 {
                     building_idx++;
                     /* Move to start of array if end is reached */
-                    if (building_idx > MAX_NUM_BUILDINGS)
+                    if (building_idx >= MAX_NUM_BUILDINGS)
                     {
                         building_idx = 0;
                     }
