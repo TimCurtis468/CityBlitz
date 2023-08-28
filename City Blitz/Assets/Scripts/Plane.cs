@@ -58,6 +58,8 @@ public class Plane : MonoBehaviour
     private bool plane_resetting = false;
     private DateTime start_delay;
 
+    public bool game_over { get; set; }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -78,6 +80,7 @@ public class Plane : MonoBehaviour
         start_height = planeInitialY;
 
         plane_resetting = false;
+        game_over = false;
 
         BuildingBlock.OnPlaneCrash += OnPlaneCrash;
     }
@@ -85,7 +88,7 @@ public class Plane : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (plane_resetting == false)
+        if ((plane_resetting == false) && (game_over == false))
         {
             ProcessPlaneSpeed();
             CheckForEdgeOfScreen();

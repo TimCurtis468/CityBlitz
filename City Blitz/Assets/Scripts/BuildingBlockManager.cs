@@ -29,6 +29,7 @@ public class BuildingBlockManager : MonoBehaviour
 
     private int MAX_FLOORS = 8;
     private int MAX_NUM_BUILDINGS = 15;
+    private int MIN_NUM_FLOORS = 7;//2;
     private float initialBlockSpawnPositionX = -2.075f;
     private float initialBlockSpawnPositionY = -4.5f;
     private float xshiftAmount = 0.275f;
@@ -121,7 +122,7 @@ public class BuildingBlockManager : MonoBehaviour
             int building_idx = UnityEngine.Random.Range(0, MAX_NUM_BUILDINGS);
 
             building_image_num = UnityEngine.Random.Range(1, this.baseSprites.Length);
-            size = UnityEngine.Random.Range(2, num_floors);
+            size = UnityEngine.Random.Range(MIN_NUM_FLOORS, num_floors);
 
             b_color = UnityEngine.Random.Range(0x7F, 0xFF);
             b_color = (b_color << 8) + UnityEngine.Random.Range(0x7F, 0xFF);

@@ -96,31 +96,32 @@ public class GameManager : MonoBehaviour
         /* Todo - Put into Game Manager */
         bool all_destroyed = BuildingBlockManager.Instance.AllBlockDestroyed();
 
-        if (all_destroyed == true)
+        if (gameOverActive == false)
         {
-            if (endOfLevelStateMachine == eEndOfLavelState.eEndOfLevelDelay)
+            if (all_destroyed == true)
             {
-                /* Wait for timeout */
-                if (sw.ElapsedMilliseconds > endOfLevelTimeout)
+                if (endOfLevelStateMachine == eEndOfLavelState.eEndOfLevelDelay)
                 {
-                    level++;
-                    OnLevelComplete?.Invoke(this.level);
-                    BuildingBlockManager.Instance.GenerateBlocks(level);
-                    sw.Reset();
-                    endOfLevelStateMachine = eEndOfLavelState.eIdle;
-                    Plane.Instance.resetPlane();
+                    /* Wait for timeout */
+                    if (sw.ElapsedMilliseconds > endOfLevelTimeout)
+                    {
+                        level++;
+                        OnLevelComplete?.Invoke(this.level);
+                        BuildingBlockManager.Instance.GenerateBlocks(level);
+                        sw.Reset();
+                        endOfLevelStateMachine = eEndOfLavelState.eIdle;
+                        Plane.Instance.resetPlane();
+                    }
+                }
+                else
+                {
+                    sw.Start();        /* Check for end of level */
+                    endOfLevelStateMachine = eEndOfLavelState.eEndOfLevelDelay;
                 }
             }
-            else
-            {
-                sw.Start();        /* Check for end of level */
-                endOfLevelStateMachine = eEndOfLavelState.eEndOfLevelDelay;
-            }
         }
-
-
-#if (PI)
-        if (gameOverActive == true)
+#if PI
+        else
         {
             if (AdManager.Instance.rewardedAdClosed == true)
             {
@@ -173,6 +174,14 @@ public class GameManager : MonoBehaviour
         if(Lives <= 0)
         {
             /* GAME OVER */
+            /* Show buttons to select resurrection or death */
+            if (gameOver != null)
+            {
+                gameOver.SetActive(true);
+                gameOverActive = true;
+                Plane.Instance.game_over = true;
+                //MusicManager.Instance.StopMusic();
+            }
         }
     }
 #if (PI)

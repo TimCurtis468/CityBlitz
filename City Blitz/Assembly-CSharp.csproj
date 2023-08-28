@@ -62,12 +62,12 @@
     <Compile Include="Assets\Scripts\BombManager.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\BuildingBlockManager.cs" />
-    <Compile Include="Assets\HighscoreTable.cs" />
+    <Compile Include="Assets\Scripts\EndScreen.cs" />
+    <Compile Include="Assets\Scripts\HighscoreTable.cs" />
     <Compile Include="Assets\Scripts\BuildingBlock.cs" />
     <Compile Include="Assets\Scripts\StartMenu.cs" />
     <Compile Include="Assets\Scripts\Utilities.cs" />
     <Compile Include="Assets\Scripts\Plane.cs" />
-    <Compile Include="Assets\EndScreen.cs" />
     <Compile Include="Assets\Scripts\UIManager.cs" />
   </ItemGroup>
   <ItemGroup>
