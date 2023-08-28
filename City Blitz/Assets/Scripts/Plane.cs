@@ -100,6 +100,11 @@ public class Plane : MonoBehaviour
     {
         if (plane_resetting == true)
         {
+            if ((DateTime.Now - start_delay).TotalSeconds > 0.9)
+            {
+                animator.SetBool("IsMovingLeft", true);
+                animator.SetBool("IsExploding", false);
+            }
             if ((DateTime.Now - start_delay).TotalSeconds > 1)
             {
                 plane_resetting = false;
@@ -138,7 +143,7 @@ public class Plane : MonoBehaviour
         speed = MIN_SPEED;
         planePositionX = rightClamp;
         isMovingLeft = true;
-        animator.SetBool("IsMovingLeft", true);
+
 
         transform.position = new Vector3(planePositionX, planeInitialY, 0);
     }
@@ -264,6 +269,8 @@ public class Plane : MonoBehaviour
         start_delay = DateTime.Now;
         plane_resetting = true;
         SpawnDestroyEffect();
+        animator.SetBool("IsExploding", true);
+
     }
 
     private void SpawnDestroyEffect()
